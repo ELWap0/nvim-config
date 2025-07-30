@@ -1,0 +1,6 @@
+require("elwapo.options")
+require("elwapo.keymaps")
+require("elwapo.lazy")
+require("elwapo.colorscheme")
+require("elwapo.cmp")
+require("elwapo.lsp")
