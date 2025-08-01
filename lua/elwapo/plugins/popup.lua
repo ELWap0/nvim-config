@@ -1,4 +1,8 @@
 return {
 	"nvim-lua/popup.nvim",
-	name="popup"
+	name="popup",
+  dependency = {
+    "nvim-lua/plenary.nvim"
+  },
+  lazy=false,
 }

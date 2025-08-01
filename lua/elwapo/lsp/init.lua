@@ -6,4 +6,4 @@ end
 
 require("elwapo.lsp.mason")
 require("elwapo.lsp.none-ls")
-require("elwapo.lsp.handler")
+require("elwapo.lsp.handler").setup()
