@@ -1,24 +1,34 @@
-moonfly =  { 
-	"bluz71/vim-moonfly-colors", 
-	name = "moonfly", 
-	lazy = false, 
-	priority = 1000,
+local themes = {
+  {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    lazy = true,
+    opt = {
+      transparent_background = true,
+    }
+  },
+  {
+	  "bluz71/vim-moonfly-colors",
+	  name = "moonfly",
+	  lazy = true,
+
+  },
+  {
+    "ntk148v/habamax.nvim",
+	  name = "habamax",
+	  lazy = true,
+    dependencies={ "rktjmp/lush.nvim" },
+  },
+  {
+    "folke/tokyonight.nvim",
+    name = "tokyonight",
+    lazy = true,
+    priority = 1000,
+    opts = {
+      transparent = true,
+    },
+  }
 }
 
-catppuccin = { 
-  "catppuccin/nvim", 
-  name = "catppuccin",
-  priority = 1000,
-  lazy = false,
-}
 
-habamax = { 
-  "ntk148v/habamax.nvim", 
-	name = "habamax", 
-	lazy = false, 
-	priority = 1000,
-  dependencies={ "rktjmp/lush.nvim" } 
-}
-
-
-return habamax 
+return themes

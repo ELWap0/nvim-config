@@ -4,8 +4,7 @@ if not status_ok then
 end
 
 local actions = require "telescope.actions"
-
-telescope.setup {
+local M =  {
   defaults = {
 
     prompt_prefix = " ",
@@ -97,3 +96,5 @@ telescope.setup {
     -- please take a look at the readme of the extension you want to configure
   },
 }
+
+return M
