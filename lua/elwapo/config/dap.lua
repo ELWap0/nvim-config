@@ -28,36 +28,11 @@ dap.listeners.before.event_exited.dapui_config = function()
   dap_ui.close()
 end
 
---- adapter
-dap.adapters.gcc = {
-  type = 'executable',
-  command = "gcc",
-  args = {"--interpreter=dap", "--eval-command", "set print pretty on"},
-}
 
-dap.adapters.python_virt = {
-  type = 'executable',
-  command = '',
-  args = {'-m', 'debugpy.adapter'},
-  options = { source_filetype = 'python' }
-}
+
 --- config
-local c_config = {
-  local_conf = {
-  },
-  remote_conf = {
-  },
-}
-local rust_config = {
-  local_conf = {
-  },
-  remote_conf = {
-  },
-}
-local c_opt = env_loader.C_OPT or "local_conf"
-local rust_opt = env_loader.RUST_OPT or "local_conf"
-
-dap.configuration.c = c_config[c_opt]
-dap.configuration.cpp = dap.configuration.c
-dap.configuration.rust = rust_config[rust_opt]
+dap.configuration.c = require("elwapo.config.dap-settings.c").setup(env_loader)
+dap.configuration.cpp = require("elwapo.config.dap-settings.cpp").setup(env_loader)
+dap.configuration.rust =require("elwapo.config.dap-settings.rust").setup(env_loader)
+dap.configuration.python =require("elwapo.config.dap-settings.python").setup(env_loader)
 ---

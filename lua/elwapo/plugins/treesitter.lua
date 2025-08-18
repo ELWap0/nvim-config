@@ -3,8 +3,11 @@ return {
   branch = 'master',
   lazy = false,
   build = ":TSUpdate",
+  main = "nvim-treesitter.configs",
   opts = {
-    ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline" },
+    ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline","python"},
+    auto_install = true,
+    sync_install = true,
     ignore_install = { "javascript" },
     highlight = {
       enable = true,

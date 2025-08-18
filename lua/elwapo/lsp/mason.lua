@@ -2,6 +2,7 @@ local servers = {
   "lua_ls",
   "gopls",
   "clangd",
+  "pyright"
 }
 
 
@@ -21,10 +22,10 @@ local settings = {
 local mason_ok, mason = pcall(require, "mason")
 local config_ok, config = pcall(require, "mason-lspconfig")
 
-if not mason_ok then 
+if not mason_ok then
   nvim.notify("unable to laod mason")
 end
-if not config_ok then 
+if not config_ok then
   nvim.notify("unable to laod mason-lspconfig")
 end
 

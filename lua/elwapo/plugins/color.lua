@@ -23,10 +23,19 @@ local themes = {
     "folke/tokyonight.nvim",
     name = "tokyonight",
     lazy = true,
-    priority = 1000,
     opts = {
       transparent = true,
     },
+  },
+  {
+    "navarasu/onedark.nvim",
+    name = "onedark",
+    lazy = true,
+    opts = {
+      style= "warmer",
+      transparent = true,
+    }
+
   }
 }
 
