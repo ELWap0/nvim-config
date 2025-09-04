@@ -1,4 +1,15 @@
-local M = {}
+local blink_ok, blink = pcall(require,"blink.cmp")
+if not blink_ok then
+  vim.notify("unable to load blink.cmp")
+  return {}
+end
+
+local M = {
+  capabilities = blink.get_lsp_capabilities(),
+  settings = {
+    Lua = {},
+  },
+}
 M.on_init = function(client)
   if client.workspace_folders then
     local path = client.workspace_folders[1].name
@@ -19,7 +30,10 @@ M.on_init = function(client)
       library = {
         vim.env.VIMRUNTIME
       },
-    }
+    },
+    diagnostics = {
+      globals = { "vim" },
+    },
   })
 end
 

@@ -30,9 +30,7 @@ end
 
 
 
---- config
 dap.configuration.c = require("elwapo.config.dap-settings.c").setup(env_loader)
 dap.configuration.cpp = require("elwapo.config.dap-settings.cpp").setup(env_loader)
 dap.configuration.rust =require("elwapo.config.dap-settings.rust").setup(env_loader)
 dap.configuration.python =require("elwapo.config.dap-settings.python").setup(env_loader)
----
