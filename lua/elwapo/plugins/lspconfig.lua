@@ -8,11 +8,10 @@ return {
       end
   end,
   config = function()
-    local lspconfig = require('lspconfig')
     require('elwapo.config.lsp-config')
     local lua_config = require('elwapo.config.lsp.lua_ls')
     local clangd_config = require('elwapo.config.lsp.clangd')
-    lspconfig.lua_ls.setup(lua_config)
-    lspconfig.clangd.setup(clangd_config)
+    vim.lsp.config("lua_ls", lua_config)
+    vim.lsp.config("clangd", clangd_config)
   end,
 }
