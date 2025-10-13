@@ -38,9 +38,10 @@ local function make(target)
   local ok, error_msg  = run_cmd(cmd)
   if not ok then
     vim.notify("error running make ->"..error_msg, vim.log.levels.ERROR)
-    return
+    return false
   end
   vim.notify("make "..target.." Succeded",vim.log.levels.INFO)
+  return true
 end
 
 vim.api.nvim_create_user_command("NMaker",
