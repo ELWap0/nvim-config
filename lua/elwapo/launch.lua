@@ -45,4 +45,8 @@ M.generate = function()
 	file:close()
 end
 
+vim.api.nvim_create_user_command("GenLaunch", function()
+	M.generate()
+end, {})
+
 return M
