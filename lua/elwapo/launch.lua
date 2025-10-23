@@ -14,26 +14,35 @@ M.read = function()
 end
 
 M.generate = function()
-  local path = vim.fn.getcwd().."launch.json"
-  local data = {
-    type = "",
-    request = "",
-    name = "",
+	local json = require("dkjson")
+	local path = vim.fs.joinpath(vim.fn.getcwd(), "launch.json")
+	if vim.loop.fs_stat(path) then
+		vim.notify(path .. " already exits", vim.log.levels.ERROR)
+		return
+	end
+	local data = {
+		type = "",
+		request = "",
+		name = "",
 
-    program = "",
-    args = "",
-    env = "",
-    envFile = "",
-    cwd = "",
-    port = "",
-    stopOnEntry = false,
-    console = ""
-  }
-  local jsonData = vim.json.encode(data)
-  local file = io.open(path, "w")
-  if file then
-    file:write(jsonData)
-  end
+		program = "",
+		args = "",
+		env = "",
+		envFile = "",
+		cwd = "",
+		port = "",
+		stopOnEntry = false,
+		console = "",
+	}
+	local jsonData = json.encode(data, { indent = true })
+	local file = io.open(path, "w")
+	if not file then
+		vim.notify("Failed to create: " .. path, vim.log.levels.ERROR)
+		return
+	end
+	vim.notify("Created: " .. path, vim.log.levels.INFO)
+	file:write(jsonData)
+	file:close()
 end
 
 return M
