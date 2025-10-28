@@ -32,7 +32,6 @@ M.generate = function()
 		stopOnEntry = false,
 	}
 	local extension = vim.fn.fnamemodify(vim.fn.expand("%"), ":e")
-	vim.notify(extension)
 	if extension == "c" then
 		data.type = "gdb"
 	elseif extension == "cpp" then
@@ -41,7 +40,10 @@ M.generate = function()
 		data.type = "delve"
 	elseif extension == "py" then
 		data.type = "python"
+	else
+		data.type = ""
 	end
+
 	local jsonData = json.encode(data, {
 		indent = true,
 		keyorder = {
