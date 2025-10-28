@@ -9,16 +9,11 @@ return {
 		lazy = false,
 		opts = {
 			ensure_installed = {
-				"black",
-				"clang-format",
 				"clangd",
 				"dockerls",
-				"goimports",
 				"gopls",
-				"isort",
 				"lua_ls",
 				"pyright",
-				"stylua",
 			},
 			automatic_enable = true,
 		},

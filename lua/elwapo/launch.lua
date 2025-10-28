@@ -1,16 +1,16 @@
 local M = {}
 M.read = function()
-  local path = vim.fn.getcwd().."launch.json"
-  local file = io.open(path,"r")
-  local jsonData
-  if file then
-    local data = file:read("*a")
-    file:close()
-    jsonData = vim.json.decode(data)
-  else
-    jsonData = vim.json.decode("{}")
-  end
-  return jsonData
+	local path = vim.fn.getcwd() .. "launch.json"
+	local file = io.open(path, "r")
+	local jsonData
+	if file then
+		local data = file:read("*a")
+		file:close()
+		jsonData = vim.json.decode(data)
+	else
+		jsonData = vim.json.decode("{}")
+	end
+	return jsonData
 end
 
 M.generate = function()
@@ -21,20 +21,43 @@ M.generate = function()
 		return
 	end
 	local data = {
-		type = "",
-		request = "",
-		name = "",
-
-		program = "",
-		args = "",
-		env = "",
+		request = "launch",
+		name = "Launch",
+		program = "${workspaceFolder}",
+		args = {},
+		env = {},
 		envFile = "",
-		cwd = "",
+		cwd = "${workspaceFolder}",
 		port = "",
 		stopOnEntry = false,
-		console = "",
 	}
-	local jsonData = json.encode(data, { indent = true })
+	local extension = vim.fn.fnamemodify(vim.fn.expand("%"), ":e")
+	vim.notify(extension)
+	if extension == "c" then
+		data.type = "gdb"
+	elseif extension == "cpp" then
+		data.type = "gdb"
+	elseif extension == "go" then
+		data.type = "delve"
+	elseif extension == "py" then
+		data.type = "python"
+	end
+	local jsonData = json.encode(data, {
+		indent = true,
+		keyorder = {
+			"type",
+			"request",
+			"name",
+			"program",
+			"args",
+			"env",
+			"envFile",
+			"cwd",
+			"port",
+			"stopOnEntry",
+			"console",
+		},
+	})
 	local file = io.open(path, "w")
 	if not file then
 		vim.notify("Failed to create: " .. path, vim.log.levels.ERROR)
