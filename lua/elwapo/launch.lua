@@ -1,4 +1,33 @@
 local M = {}
+M.base = {
+	request = "launch",
+	name = "Launch",
+	program = "${fileDirname}",
+	args = {},
+	env = {},
+	envFile = "",
+	cwd = "${workspaceFolder}",
+	port = "",
+	stopOnEntry = false,
+}
+
+local function ext(data)
+	local extension
+	vim.fn.fnamemodify(vim.fn.expand("%"), ":e")
+	if extension == "c" then
+		data.type = "gdb"
+	elseif extension == "cpp" then
+		data.type = "gdb"
+	elseif extension == "go" then
+		data.type = "delve"
+	elseif extension == "py" then
+		data.type = "python"
+		data.program = "${fileBasename}"
+	else
+		M.base.type = ""
+	end
+end
+
 M.read = function()
 	local path = vim.fn.getcwd() .. "launch.json"
 	local file = io.open(path, "r")
@@ -8,7 +37,8 @@ M.read = function()
 		file:close()
 		jsonData = vim.json.decode(data)
 	else
-		jsonData = vim.json.decode("{}")
+		jsonData = M.base
+		ext(jsonData)
 	end
 	return jsonData
 end
@@ -20,31 +50,7 @@ M.generate = function()
 		vim.notify(path .. " already exits", vim.log.levels.ERROR)
 		return
 	end
-	local data = {
-		request = "launch",
-		name = "Launch",
-		program = "${workspaceFolder}",
-		args = {},
-		env = {},
-		envFile = "",
-		cwd = "${workspaceFolder}",
-		port = "",
-		stopOnEntry = false,
-	}
-	local extension = vim.fn.fnamemodify(vim.fn.expand("%"), ":e")
-	if extension == "c" then
-		data.type = "gdb"
-	elseif extension == "cpp" then
-		data.type = "gdb"
-	elseif extension == "go" then
-		data.type = "delve"
-	elseif extension == "py" then
-		data.type = "python"
-	else
-		data.type = ""
-	end
-
-	local jsonData = json.encode(data, {
+	local jsonData = json.encode(M.base, {
 		indent = true,
 		keyorder = {
 			"type",
@@ -60,6 +66,7 @@ M.generate = function()
 			"console",
 		},
 	})
+	ext(jsonData)
 	local file = io.open(path, "w")
 	if not file then
 		vim.notify("Failed to create: " .. path, vim.log.levels.ERROR)
