@@ -4,7 +4,7 @@ if not dap_ok then
 end
 
 
-dap.adapters.delve = function(cb, config)
+dap.adapters.go = function(cb, config)
   if config.request == 'local' then
     cb({
       type = 'executable',
@@ -16,7 +16,7 @@ dap.adapters.delve = function(cb, config)
       port = config.port,
       executable = {
         command = 'dlv',
-        args = { 'dap', '-l', config.address..":"..config.port, '--log', '--log-output=dap'},
+        args = { 'dap', '-l', config.address .. ":" .. config.port, '--log', '--log-output=dap' },
         detached = vim.fn.has("") == 0,
       }
     })

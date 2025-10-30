@@ -1,11 +1,11 @@
 local dap_ok, dap = pcall(require, "dap")
-if dap_ok then
-  vim.notify("unable to load dap")
+if not dap_ok then
+  vim.notify("failed to load dap")
 end
 
 local dap_ui_ok, dap_ui = pcall(require, "dapui")
-if dap_ui_ok then
-  vim.notify("unable to load dap ui")
+if not dap_ui_ok then
+  vim.notify("failed to load dap ui")
 end
 
 dap.listeners.before.attach.dapui_config = function()
@@ -20,12 +20,17 @@ end
 dap.listeners.before.event_exited.dapui_config = function()
   dap_ui.close()
 end
+dap.listeners.after.event_initialized["dapui_config"] = function()
+  -- wait a tiny bit to ensure controls are registered
+  vim.defer_fn(function() dap_ui.open({ reset = true }) end, 100)
+end
 
+local debug_config = require("elwapo.launch").read()
+dap.configurations.c = require("elwapo.config.dap-settings.c").Setup(debug_config)
+dap.configurations.cpp = require("elwapo.config.dap-settings.cpp").Setup(debug_config)
+dap.configurations.rust = require("elwapo.config.dap-settings.rust").Setup(debug_config)
+dap.configurations.python = require("elwapo.config.dap-settings.python").Setup(debug_config)
+dap.configurations.go = require("elwapo.config.dap-settings.go").Setup(debug_config)
 
-local debug_config = require("lua.elwapo.launch").read(vim.fn.getcwd().."launch.json")
-
-dap.configuration.c = require("elwapo.config.dap-settings.c").Setup(debug_config)
-dap.configuration.cpp = require("elwapo.config.dap-settings.cpp").Setup(debug_config)
-dap.configuration.rust =require("elwapo.config.dap-settings.rust").Setup(debug_config)
-dap.configuration.python =require("elwapo.config.dap-settings.python").Setup(debug_config)
-dap.configuration.go = require("elwapo.config.dap-settings.go").Setup(debug_config)
+local M = {}
+return M
