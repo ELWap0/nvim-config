@@ -14,8 +14,6 @@ if not (vim.uv or vim.loop).fs_stat(lz_path) then
 end
 vim.opt.rtp:prepend(lz_path)
 
-vim.g.mapleader = ""
-vim.g.maplocalleader = "\\"
 
 require("lazy").setup({
 	spec = "elwapo.plugins",
