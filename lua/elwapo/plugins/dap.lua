@@ -45,7 +45,16 @@ return {
       {
         "<leader>de",
         function()
-          require("dap").terminate()
+          local dap = require("dap")
+          local dapui = require("dapui")
+          dapui.close()
+          dap.terminate()
+          dap.repl.close()
+          dap.clear_breakpoints()
+          dap.disconnect()
+          if dap.session() then
+            dap.session().close()
+          end
         end,
         desc = "Dap end",
         mode = "n",

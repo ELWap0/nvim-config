@@ -7,13 +7,20 @@ end
 dap.adapters.go = function(cb, config)
   if config.request == 'local' then
     cb({
-      type = 'executable',
-      command = ''
+      type = 'server',
+      port = config.port,
+      host = "127.0.0.1",
+      executable = {
+        command = 'dlv',
+        args = { 'dap', '-l', "127.0.0.1:" .. config.port, '--log', '--log-output=dap' },
+        detached = vim.fn.has("") == 0,
+      }
     })
   elseif config.request == 'remote' then
     cb({
       type = 'server',
       port = config.port,
+      host = config.host,
       executable = {
         command = 'dlv',
         args = { 'dap', '-l', config.address .. ":" .. config.port, '--log', '--log-output=dap' },
@@ -22,3 +29,11 @@ dap.adapters.go = function(cb, config)
     })
   end
 end
+
+local M = {}
+M.Setup = function(config)
+  local c = { config }
+  return c
+end
+
+return M
