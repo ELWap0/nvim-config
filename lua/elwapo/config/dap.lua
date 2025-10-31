@@ -24,13 +24,17 @@ dap.listeners.after.event_initialized["dapui_config"] = function()
   -- wait a tiny bit to ensure controls are registered
   vim.defer_fn(function() dap_ui.open({ reset = true }) end, 100)
 end
+dap.listeners.after.terminate.dap_ui = function()
+  dap_ui.close()
+  pcall(function() require("dap.repl").close() end)
+end
 
 local debug_config = require("elwapo.launch").read()
 dap.configurations.c = require("elwapo.config.dap-settings.c").Setup(debug_config)
-dap.configurations.cpp = require("elwapo.config.dap-settings.cpp").Setup(debug_config)
-dap.configurations.rust = require("elwapo.config.dap-settings.rust").Setup(debug_config)
-dap.configurations.python = require("elwapo.config.dap-settings.python").Setup(debug_config)
-dap.configurations.go = require("elwapo.config.dap-settings.go").Setup(debug_config)
+--dap.configurations.cpp = require("elwapo.config.dap-settings.cpp").Setup(debug_config)
+--dap.configurations.rust = require("elwapo.config.dap-settings.rust").Setup(debug_config)
+--dap.configurations.python = require("elwapo.config.dap-settings.python").Setup(debug_config)
+--dap.configurations.go = require("elwapo.config.dap-settings.go").Setup(debug_config)
 
 local M = {}
 return M

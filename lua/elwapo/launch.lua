@@ -2,12 +2,13 @@ local M = {}
 M.base = {
   request = "launch",
   name = "Launch",
-  program = "${fileDirname}",
+  program = "${fileDirname}/",
   args = {},
   env = {},
   envFile = "",
   cwd = "${workspaceFolder}",
   port = "",
+  host = "",
   stopOnEntry = false,
 }
 
